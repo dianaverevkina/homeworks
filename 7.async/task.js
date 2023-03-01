@@ -8,12 +8,11 @@ class AlarmClock {
     if (!(time && callback)) {
       throw new Error('Отсутствуют обязательные аргументы');
     }
-    if (this.alarmCollection.includes(time)) {
+    if (this.alarmCollection.some(obj => obj.time === time)) {
       console.warn('Уже присутствует звонок на это же время');
     }
 
-    this.alarmCollection.push({callback, time, canCall: callback()});
-    this.alarmCollection.forEach(t => t.canCall = true);
+    this.alarmCollection.push({callback, time, canCall: true});
   }
 
   removeClock(time) {
@@ -27,15 +26,15 @@ class AlarmClock {
   }
 
   start() {
-    if(!(this.intervalId === null)) {
+    if(this.intervalId !== null) {
       return;
     }
 
     const opportunityOfCall = () => {
-      this.alarmCollection.forEach((t, index) => {
-        if (t.time === this.getCurrentFormattedTime() && t.canCall === true) {
-          this.alarmCollection[index].canCall = false;
-          return this.alarmCollection[index].callback; 
+      this.alarmCollection.forEach(obj => {
+        if (obj.time === this.getCurrentFormattedTime() && obj.canCall === true) {
+          obj.canCall = false;
+          return obj.callback(); 
         }
       })
     }
@@ -53,7 +52,7 @@ class AlarmClock {
   }
 
   clearAlarms() {
-    stop();
+    this.stop();
     this.alarmCollection = [];
   }
 }
