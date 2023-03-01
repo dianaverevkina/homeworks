@@ -35,7 +35,7 @@ class AlarmClock {
       this.alarmCollection.forEach((t, index) => {
         if (t.time === this.getCurrentFormattedTime() && t.canCall === true) {
           this.alarmCollection[index].canCall = false;
-          return callback(); 
+          return this.alarmCollection[index].callback; 
         }
       })
     }
