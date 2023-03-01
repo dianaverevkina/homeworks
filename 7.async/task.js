@@ -16,7 +16,7 @@ class AlarmClock {
   }
 
   removeClock(time) {
-    return this.alarmCollection = this.alarmCollection.filter(t => !(t.time === time));
+    return this.alarmCollection = this.alarmCollection.filter(obj => obj.time !== time);
   }
 
   getCurrentFormattedTime() {
@@ -48,7 +48,7 @@ class AlarmClock {
   }
 
   resetAllCalls() {
-    this.alarmCollection.forEach(t => t.canCall = true);
+    this.alarmCollection.forEach(obj => obj.canCall = true);
   }
 
   clearAlarms() {
